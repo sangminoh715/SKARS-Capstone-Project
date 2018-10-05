@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.7.12)  5 OCT 2018 00:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.7.12)  5 OCT 2018 09:28
 entering extended mode
 **"./Milestone 1.tex"
 ("Milestone 1.tex"
@@ -1511,11 +1511,11 @@ Underfull \vbox (badness 10000) detected at line 141
 
 [2 <./figures/ProcessFlow.png>] [3 <./figures/IdentificationExample.png>]
 [4]
-<./figures/BlockDiagram.png, id=75, 277.78781pt x 627.84563pt>
+<./figures/BlockDiagram.png, id=75, 277.035pt x 628.59843pt>
 File: ./figures/BlockDiagram.png Graphic file (type png)
 <use ./figures/BlockDiagram.png>
 Package pdftex.def Info: ./figures/BlockDiagram.png  used on input line 146.
-(pdftex.def)             Requested size: 258.19504pt x 583.57425pt.
+(pdftex.def)             Requested size: 258.19504pt x 585.8566pt.
  [5 <./figures/BlockDiagram.png>]
 <./figures/ConceptDrawTopLevel.png, id=81, 1702.36pt x 1670.24pt>
 File: ./figures/ConceptDrawTopLevel.png Graphic file (type png)
@@ -1562,7 +1562,7 @@ Here is how much of TeX's memory you used:
 b8a.pfb><C:/Users/sangm/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/adobe/uto
 pia/putr8a.pfb><C:/Users/sangm/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/ad
 obe/utopia/putri8a.pfb>
-Output written on "Milestone 1.pdf" (6 pages, 537651 bytes).
+Output written on "Milestone 1.pdf" (6 pages, 535580 bytes).
 PDF statistics:
  108 PDF objects out of 1000 (max. 8388607)
  26 named destinations out of 1000 (max. 500000)
