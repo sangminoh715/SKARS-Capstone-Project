@@ -9,7 +9,7 @@ __Members__
 
 __Project Name__
 
-_Insert Project Name Here_
+Eternal Flight
 
 __Important/Useful Links__
 * [SKARS Google Drive](https://drive.google.com/drive/folders/1pLIQi1Zspx35FtqSxx84SjU3Xzym5UNB)
