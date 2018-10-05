@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.7.12)  4 OCT 2018 22:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.7.12)  5 OCT 2018 00:14
 entering extended mode
 **"./Milestone 1.tex"
 ("Milestone 1.tex"
@@ -1357,7 +1357,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 
 {C:/Users/sangm/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<./figures/ProcessFlow.png, id=39, 603.25375pt x 61.22874pt>
+<./figures/ProcessFlow.png, id=42, 603.25375pt x 61.22874pt>
 File: ./figures/ProcessFlow.png Graphic file (type png)
 <use ./figures/ProcessFlow.png>
 Package pdftex.def Info: ./figures/ProcessFlow.png  used on input line 69.
@@ -1399,118 +1399,137 @@ Underfull \hbox (badness 2689) in paragraph at lines 97--98
 \T1/futs/m/n/12 (+20) for proper latch-
  []
 
-<./figures/IdentificationExample.png, id=41, 289.08pt x 273.02pt>
+<./figures/IdentificationExample.png, id=44, 289.08pt x 273.02pt>
 File: ./figures/IdentificationExample.png Graphic file (type png)
 <use ./figures/IdentificationExample.png>
 Package pdftex.def Info: ./figures/IdentificationExample.png  used on input lin
 e 104.
-(pdftex.def)             Requested size: 113.81102pt x 107.48552pt.
+(pdftex.def)             Requested size: 142.26378pt x 134.36003pt.
 
 Underfull \hbox (badness 1701) in paragraph at lines 109--110
 \T1/futs/m/n/12 (+20) drone to de-ter-mine the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--125
+Underfull \hbox (badness 10000) in paragraph at lines 123--126
 []\T1/futs/m/n/12 (+20) Once the Child
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--125
+Underfull \hbox (badness 10000) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) Par-ent drone's
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--125
+Underfull \hbox (badness 10000) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) lo-ca-tion, moves
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--125
+Underfull \hbox (badness 10000) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) near the Par-ent
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--125
+Underfull \hbox (badness 10000) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) de-scend onto
  []
 
 
-Underfull \hbox (badness 2221) in paragraph at lines 122--125
+Underfull \hbox (badness 2221) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) The Child drone
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--125
+Underfull \hbox (badness 10000) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) will be latched
  []
 
 
-Underfull \hbox (badness 6995) in paragraph at lines 122--125
+Underfull \hbox (badness 6995) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) onto the Par-ent
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--125
+Underfull \hbox (badness 10000) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) move-ment af-ter
  []
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 122--125
+Underfull \hbox (badness 1331) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) the latch will be
  []
 
 
-Underfull \hbox (badness 1502) in paragraph at lines 122--125
+Underfull \hbox (badness 1502) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) re-leased and the
  []
 
 
-Underfull \hbox (badness 3158) in paragraph at lines 122--125
+Underfull \hbox (badness 3158) in paragraph at lines 123--126
 \T1/futs/m/n/12 (+20) Child drone will
  []
 
 
-Underfull \hbox (badness 2469) in paragraph at lines 129--130
+Underfull \hbox (badness 2469) in paragraph at lines 130--131
 []\T1/futs/m/n/12 (+20) Two elec-tro-mag-nets are
  []
 
 
-Underfull \hbox (badness 4739) in paragraph at lines 129--130
+Underfull \hbox (badness 4739) in paragraph at lines 130--131
 \T1/futs/m/n/12 (+20) fas-tened to the top of
  []
 
 
-Underfull \hbox (badness 2894) in paragraph at lines 129--130
+Underfull \hbox (badness 2894) in paragraph at lines 130--131
 \T1/futs/m/n/12 (+20) the Par-ent drone. We
  []
 
 
-Underfull \hbox (badness 2073) in paragraph at lines 129--130
+Underfull \hbox (badness 2073) in paragraph at lines 130--131
 \T1/futs/m/n/12 (+20) ent drone and 2) there
  []
 
 
-Underfull \hbox (badness 4072) in paragraph at lines 130--131
+Underfull \hbox (badness 4072) in paragraph at lines 131--132
 \T1/futs/m/n/12 (+20) ing, the Par-ent drone's
  []
 
 
-Underfull \hbox (badness 1127) in paragraph at lines 130--131
+Underfull \hbox (badness 1127) in paragraph at lines 131--132
 \T1/futs/m/n/12 (+20) pel the mag-nets on the
  []
 
 
-Underfull \hbox (badness 6510) in paragraph at lines 136--137
+Underfull \hbox (badness 6510) in paragraph at lines 137--138
 []\T1/futs/m/n/12 (+20) Any reg-u-lar cir-cu-lar mag-net
  []
 
 
-Underfull \vbox (badness 10000) detected at line 140
+Underfull \vbox (badness 10000) detected at line 141
  []
 
 [2 <./figures/ProcessFlow.png>] [3 <./figures/IdentificationExample.png>]
-("Milestone 1.bbl"
+[4]
+<./figures/BlockDiagram.png, id=75, 277.035pt x 628.59843pt>
+File: ./figures/BlockDiagram.png Graphic file (type png)
+<use ./figures/BlockDiagram.png>
+Package pdftex.def Info: ./figures/BlockDiagram.png  used on input line 146.
+(pdftex.def)             Requested size: 258.19504pt x 585.8566pt.
+ [5 <./figures/BlockDiagram.png>]
+<./figures/ConceptDrawTopLevel.png, id=81, 1702.36pt x 1670.24pt>
+File: ./figures/ConceptDrawTopLevel.png Graphic file (type png)
+<use ./figures/ConceptDrawTopLevel.png>
+Package pdftex.def Info: ./figures/ConceptDrawTopLevel.png  used on input line 
+155.
+(pdftex.def)             Requested size: 258.19504pt x 253.30315pt.
+<./figures/ConceptDrawChildUnder.png, id=82, 1766.6pt x 1349.04pt>
+File: ./figures/ConceptDrawChildUnder.png Graphic file (type png)
+<use ./figures/ConceptDrawChildUnder.png>
+Package pdftex.def Info: ./figures/ConceptDrawChildUnder.png  used on input lin
+e 162.
+(pdftex.def)             Requested size: 258.19504pt x 197.15993pt.
+ ("Milestone 1.bbl"
 
 Class scrartcl Warning: incompatible usage of \@ssect detected.
 (scrartcl)              You've used the KOMA-Script implementation of \@ssect
@@ -1520,22 +1539,22 @@ Class scrartcl Warning: incompatible usage of \@ssect detected.
 ne 1.
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 150.
- [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 150.
- ("Milestone 1.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 150.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 150.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 175.
+ [6 <./figures/ConceptDrawTopLevel.png> <./figures/ConceptDrawChildUnder.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 175.
+("Milestone 1.aux")
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 175.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 175.
 Package rerunfilecheck Info: File `"Milestone 1".out' has not changed.
-(rerunfilecheck)             Checksum: CFB0C4A26E62D6DF66501BBB764F9DF6;401.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 150.
+(rerunfilecheck)             Checksum: FC33BB7E11ACFB3A3C3E56715F7B7290;401.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 175.
  ) 
 Here is how much of TeX's memory you used:
- 23326 strings out of 492973
- 439956 string characters out of 3126692
- 633490 words of memory out of 3000000
- 26723 multiletter control sequences out of 15000+200000
- 623412 words of font info for 222 fonts, out of 3000000 for 9000
+ 23353 strings out of 492973
+ 440594 string characters out of 3126692
+ 634651 words of memory out of 3000000
+ 26738 multiletter control sequences out of 15000+200000
+ 623682 words of font info for 225 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  50i,11n,73p,9120b,908s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/sangm/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc
@@ -1543,9 +1562,9 @@ Here is how much of TeX's memory you used:
 b8a.pfb><C:/Users/sangm/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/adobe/uto
 pia/putr8a.pfb><C:/Users/sangm/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/ad
 obe/utopia/putri8a.pfb>
-Output written on "Milestone 1.pdf" (4 pages, 147573 bytes).
+Output written on "Milestone 1.pdf" (6 pages, 535261 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
- 21 named destinations out of 1000 (max. 500000)
- 47171 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 108 PDF objects out of 1000 (max. 8388607)
+ 26 named destinations out of 1000 (max. 500000)
+ 47186 words of extra memory for PDF output out of 51595 (max. 10000000)
 

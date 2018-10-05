@@ -39,8 +39,6 @@
 \section{Project Name}
 Eternal Flight
 
-\section{Conceptual Drawings}
-
 \section{Brief Project Overview}
 \subsection{Problem}
 Even as the applications of Unmanned Aerial Vehicles (UAVs) become more realized, certain technical challenges continue to persist. 
@@ -62,9 +60,11 @@ Our design involves two drones, a large Parent drone and a smaller Child drone.
 Our end goal for this project is to make the Child drone land on top of the Parent drone while the Parent drone is still in flight. 
 
 \subsection{Parts of the Design}
-Our design consists of four main parts, as shown in Figure \ref{fig:process}. Table \ref{table:steps} lists each of the four steps and the corresponding details of our approach in our design for each step.
+Our design consists of four main parts, as shown in Figure \ref{fig:process}. 
+Table \ref{table:steps} lists each of the four steps and the corresponding details of our approach in our design for each step.
+Figure \ref{fig:prelimblockdiagram} shows a high-level block diagram of our system and Figures \ref{fig:toplevel} and \ref{fig:childunderside} show conceptual drawings of our entire system.
 
-\begin{figure}
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{ProcessFlow}
 	\caption{High Level Parts of Project}
@@ -101,7 +101,7 @@ Our design consists of four main parts, as shown in Figure \ref{fig:process}. Ta
 	This allows the child drone to adjust its position such that the latching mechanisms are well-aligned. For example, consider the following symbol.
 			
 	\begin{center}
-		\includegraphics[width=4cm]{IdentificationExample}
+		\includegraphics[width=5cm]{IdentificationExample}
 	\end{center}
 
 	Edge Detection can be done on this image in the following way:
@@ -113,6 +113,7 @@ Our design consists of four main parts, as shown in Figure \ref{fig:process}. Ta
 	& 
 	\underline{Hardware}\par
 	To implement the computer vision based calibration, we will need to utilize a lightweight camera and make sure that there is enough room on the surface of the parent drone for a large, identifiable symbol.\par\hfill\par 
+	We can also consider coloring the arms of the Parent drone in order to assist in getting the relative orientation before relying on the identification symbol.\par\hfill\par
 	\underline{Software}\par
 	In addition, because the drones move independently, we might need to account for the speed of the parent drone using computer vision.
 	For example, we can use the number of pixels moved in a certain amount of time to determine how to adjust the child drone's speed to match that of the parent drone.\par\hfill\par 
@@ -138,6 +139,30 @@ Our design consists of four main parts, as shown in Figure \ref{fig:process}. Ta
 	\caption{Details of Each Step in Our Design}
 	\label{table:steps}
 \end{longtable}
+\newpage
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.57\textwidth]{BlockDiagram}
+	\caption{High-level Block Diagram}
+	\label{fig:prelimblockdiagram}
+\end{figure}
+
+\newpage
+\section{Conceptual Drawings}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.57\textwidth]{ConceptDrawTopLevel}
+	\caption{Top-level View of Entire System}
+	\label{fig:toplevel}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.57\textwidth]{ConceptDrawChildUnder}
+	\caption{Underside of the Child Drone}
+	\label{fig:childunderside}
+\end{figure}
 
 %%%%%%%%%%%%% END DOCUMENT CONTENT %%%%%%%%%%%%%
 
