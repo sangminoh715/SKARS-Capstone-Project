@@ -34,3 +34,11 @@ network={
 
 ## Update
 sudo raspi-config
+sudo apt-get -y update
+sudo apt-get -y upgrade
+
+## Programs
+* [**GPIO Control:**](https://gpiozero.readthedocs.io/en/stable/index.html) sudo apt install python3-gpiozero
+* Enable I2C/SPI using *sudo raspi-config*
+* [I2C](http://www.raspberry-projects.com/pi/programming-in-python/i2c-programming-in-python/using-the-i2c-interface-2) sudo apt-get install -y python-smbus i2c-tools
+* [SPI](https://www.raspberrypi.org/documentation/hardware/raspberrypi/spi/README.md)
