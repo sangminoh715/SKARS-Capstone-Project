@@ -33,9 +33,11 @@ network={
 1. ssh into pi@raspberrypi.local (password: raspberry)
 
 ## Update
+```
 sudo raspi-config
 sudo apt-get -y update
 sudo apt-get -y upgrade
+```
 
 ## Programs
 * [**GPIO Control:**](https://gpiozero.readthedocs.io/en/stable/index.html) sudo apt install python3-gpiozero
