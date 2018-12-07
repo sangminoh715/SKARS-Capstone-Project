@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.7.12)  7 DEC 2018 13:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.7.12)  7 DEC 2018 14:09
 entering extended mode
 **"./ECE 189A - Milestone 4 - Eternal Flight.tex"
 ("ECE 189A - Milestone 4 - Eternal Flight.tex"
@@ -1210,18 +1210,6 @@ Class scrartcl Warning: incompatible usage of \@ssect detected.
 (scrartcl)              This could result in several error messages on input li
 ne 29.
 
-LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
-(Font)              Font shape `T1/ppl/b/n' tried instead on input line 35.
-
-Overfull \hbox (4.27434pt too wide) in paragraph at lines 33--47
- [][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 30--57
-
- []
-
 [1
 
 
@@ -1236,39 +1224,60 @@ Class scrartcl Warning: incompatible usage of \@ssect detected.
 (scrartcl)              from within a non compatible caller, that does not
 (scrartcl)              \scr@s@ct@@nn@m@ locally.
 (scrartcl)              This could result in several error messages on input li
-ne 89.
+ne 46.
+
+LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 52.
+
+Overfull \hbox (4.27434pt too wide) in paragraph at lines 50--64
+ [][] 
+ []
 
 
-Underfull \hbox (badness 2020) in paragraph at lines 102--102
+Underfull \hbox (badness 10000) in paragraph at lines 47--74
+
+ []
+
+[2]
+
+Class scrartcl Warning: incompatible usage of \@ssect detected.
+(scrartcl)              You've used the KOMA-Script implementation of \@ssect
+(scrartcl)              from within a non compatible caller, that does not
+(scrartcl)              \scr@s@ct@@nn@m@ locally.
+(scrartcl)              This could result in several error messages on input li
+ne 106.
+
+
+Underfull \hbox (badness 2020) in paragraph at lines 119--119
 []|\T1/ppl/m/n/10 (+20) GPIO 8, 10 $\OMS/zpple/m/n/10 !$ \T1/ppl/m/n/10 (+20) O
 penMV P4/P5
  []
 
 
-Overfull \hbox (2.55708pt too wide) in paragraph at lines 93--107
+Overfull \hbox (2.55708pt too wide) in paragraph at lines 110--124
  [][] 
  []
 
-[2]
-<./figures/parentedit.png, id=12, 626.34pt x 1019.007pt>
+[3]
+<./figures/parentedit.png, id=15, 626.34pt x 1019.007pt>
 File: ./figures/parentedit.png Graphic file (type png)
 <use ./figures/parentedit.png>
-Package pdftex.def Info: ./figures/parentedit.png  used on input line 147.
+Package pdftex.def Info: ./figures/parentedit.png  used on input line 164.
 (pdftex.def)             Requested size: 394.07991pt x 641.15373pt.
- [3 <./figures/parentedit.png>]
-<./figures/childedit.png, id=18, 605.26125pt x 862.422pt>
+ [4 <./figures/parentedit.png>]
+<./figures/childedit.png, id=21, 605.26125pt x 862.422pt>
 File: ./figures/childedit.png Graphic file (type png)
 <use ./figures/childedit.png>
-Package pdftex.def Info: ./figures/childedit.png  used on input line 153.
+Package pdftex.def Info: ./figures/childedit.png  used on input line 170.
 (pdftex.def)             Requested size: 430.31818pt x 613.15295pt.
- [4 <./figures/childedit.png>]
+ [5 <./figures/childedit.png>]
 ("ECE 189A - Milestone 4 - Eternal Flight.aux") ) 
 Here is how much of TeX's memory you used:
- 23061 strings out of 492973
- 438494 string characters out of 3126692
- 720136 words of memory out of 3000000
- 26594 multiletter control sequences out of 15000+200000
- 573784 words of font info for 133 fonts, out of 3000000 for 9000
+ 23078 strings out of 492973
+ 438665 string characters out of 3126692
+ 719136 words of memory out of 3000000
+ 26596 multiletter control sequences out of 15000+200000
+ 575351 words of font info for 144 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  53i,16n,73p,9148b,561s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/sangm/AppData/Local/
@@ -1278,10 +1287,10 @@ pData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/palatino/uplb8a.pfb><C:/Users/s
 angm/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/palatino/uplr8a.pfb><C:/
 Users/sangm/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/palatino/uplri8a.
 pfb>
-Output written on "ECE 189A - Milestone 4 - Eternal Flight.pdf" (4 pages, 17362
-5 bytes).
+Output written on "ECE 189A - Milestone 4 - Eternal Flight.pdf" (5 pages, 17553
+8 bytes).
 PDF statistics:
- 37 PDF objects out of 1000 (max. 8388607)
+ 40 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  37387 words of extra memory for PDF output out of 42996 (max. 10000000)
 

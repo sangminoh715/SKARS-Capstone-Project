@@ -26,6 +26,18 @@
 %%%%%%%%%%%% BEGIN DOCUMENT CONTENT %%%%%%%%%%%%
 \vspace{-0.5in}%
 \section{Intended Software Structure}
+\subsection*{Overall Structure}
+The software structure of each part of the project is based on what we plan to demonstrate at the Design Expo in May 2019. The following list describes our plan for the final demonstration:
+\begin{enumerate}
+	\item Both the parent and child drones are at the base station.
+	\item The child drone is flown to point A using radio control. The child remains stationary and hovers at point A while the parent drone is still at the base station.
+	\item The parent drone is activated -- it is now able to communicate with the child drone over WIFI.
+	\item The child communicates its GPS coordinates (point A) to the parent.
+	\item The parent drone flies to $N$ feet directly below the child drone at point A.
+	\item The child drone detects the parent drone, descends, and lands on the surface of the parent drone.
+	\item The parent drone replaces the child drone's stale battery
+\end{enumerate}
+
 \subsection*{Parent Drone}
 The parent drone has one on-board computer, a Raspberry Pi 3 B+, which will run Raspbian Lite (a headless Debian-based Linux distribution). The following table outlines the hardware-software interactions and the layout of the software with respect to each of the modules that will need to be programmed for interaction with the Raspberry Pi.\\%
 \begin{table}[h!]
@@ -144,13 +156,13 @@ The structure of the software on the Raspberry Pi Zero W will be as follows:
 \section{Schematics}
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{parentedit}
+	\includegraphics[width=0.87\textwidth]{parentedit}
 	\caption{Parent Drone Schematic}
 \end{figure}
 \newpage
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{childedit}
+	\includegraphics[width=0.95\textwidth]{childedit}
 	\caption{Child Drone Schematic}
 \end{figure}
 

@@ -26,6 +26,23 @@
 %%%%%%%%%%%% BEGIN DOCUMENT CONTENT %%%%%%%%%%%%
 \vspace{-0.5in}%
 \section{Intended Software Structure}
+\subsection*{Overall Structure}
+The software structure of each part of the project is based on what we plan to demonstrate at the Design Expo in May 2019. The following list describes our plan for the final demonstration:
+\begin{enumerate}
+	\item Both the parent and child drones are at the base station.
+	\item The child drone is flown to point A using radio control. The child remains stationary and hovers at point A while the parent drone is still at the base station.
+	\item The parent drone is activated -- it is now able to communicate with the child drone over WIFI.
+	\item The child communicates its GPS coordinates (point A) to the parent.
+	\item The parent drone flies to $N$ feet directly below the child drone at point A.
+	\item The child drone detects the parent drone, descends, and lands on the surface of the parent drone. 
+	\item The parent drone replaces the child drone's stale battery.
+	\item Once the battery-switching is complete, the child drone unlatches from the surface of the parent drone and flies back to point A.
+	\item The parent drone is flown back to the base station using radio control, where we replace both its battery and a full battery for the child drone.
+	\item We repeat steps 3-9. The entire time, the child drone is hovering at point A.
+	\item If we want to land the child drone, we can take control of it and bring it back to the base station using radio control. If desired, we can restart the demonstration from step 1. Furthermore, there will be battery indicators for both the parent and child drones in case of emergencies.
+\end{enumerate}
+
+\newpage
 \subsection*{Parent Drone}
 The parent drone has one on-board computer, a Raspberry Pi 3 B+, which will run Raspbian Lite (a headless Debian-based Linux distribution). The following table outlines the hardware-software interactions and the layout of the software with respect to each of the modules that will need to be programmed for interaction with the Raspberry Pi.\\%
 \begin{table}[h!]
@@ -55,7 +72,6 @@ The structure of the software on the Raspberry Pi 3 B+ will be as follows:\\%
 	}
 	transition to state 2\;
 \end{algorithm}
-
 \hfill\\%
 \textbf{State 2: Activated -- The parent drone is actively searching for the child drone}\\%
 \begin{algorithm}[H]
@@ -70,7 +86,7 @@ The structure of the software on the Raspberry Pi 3 B+ will be as follows:\\%
 	}
 	transition to state 3\;
 \end{algorithm}
-\newpage\noindent
+\hfill\\%
 \textbf{State 3: Battery Switching -- The child drone is latched onto the parent drone}\\%
 \begin{algorithm}[H]
 	activate linear actuator\;
@@ -86,6 +102,7 @@ The structure of the software on the Raspberry Pi 3 B+ will be as follows:\\%
 	transition back to state 1\;
 \end{algorithm}
 
+\newpage
 \subsection*{Child Drone}
 The child drone will also have an on-board computer, a Raspberry Pi Zero W, which will also run Raspbian Lite. The child drone will have a PixRacer flight controller, which will be running the px4 flight control framework. The following table outlines the hardware-software interactions and the layout of the software for the child drone's on-board computer.
 \begin{table}[h!]
