@@ -1,9 +1,8 @@
-# RTK Setup for Child and Parent Drones
+# RTK for Child and Parent Drones
 
 **Overview**
 
-The following approach provides centimeter-level GNSS (GPS/GLONASS) accuracy using an NTRIP client. The same setup is used on each drone.
-There are two components, the base (UNAVCO station in Isla Vista) and the rovers (child drone, parent drone).
+Got DGPS working. The following approach provides centimeter-level GNSS (GPS/GLONASS) accuracy using an NTRIP client. The same setup is used on each drone. There are two components, the base (UNAVCO station in Isla Vista) and the rovers (child drone, parent drone).
 The below setup has been tested on the Pi and functions correctly.
 
 **Hardware Setup**
