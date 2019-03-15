@@ -61,23 +61,3 @@ class pid(object):
     # reset_I - clears I term
     def reset_I(self):
         self.integrator = 0
-
-    # main - used to test the class
-    def main(self):
-
-        # print object
-        print "Test PID: %s" % test_pid
-
-        # run it through a test
-        for i in range (0, 100):
-            result_p = test_pid.get_p(i)
-            result_i = test_pid.get_i(i, 0.1)
-            result_d = test_pid.get_d(i, 0.1)
-            result = result_p + result_i + result_d
-            print "Err %s, Result: %f (P:%f, I:%f, D:%f, Int:%f)" % (i, result, result_p, result_i, result_d, self.get_integrator())
-
-# run the main routine if this is file is called from the command line
-if __name__ == "__main__":
-    # create pid object P, I, D, IMAX
-    test_pid = pid(1.0, 0.5, 0.01, 50)
-test_pid.main()
