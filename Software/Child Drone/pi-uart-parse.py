@@ -11,7 +11,7 @@ while(1):
     #Parse Data
     line = self.ser.readline()
     words = string.split(line,",")
-    if len(words) == 8 && words[0] == 'x' && words[2] == 'y' && words[4] == 'z' && words[6] == 'R':
+    if len(words) == 8 and words[0] == 'X' and words[2] == 'Y' and words[4] == 'Z' and words[6] == 'R':
         x = int(words[1])
         y = int(words[3])
         z = int(words[5])
