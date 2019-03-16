@@ -4,10 +4,8 @@ import string
 import time
 
 #Initialize Serial Object
-ser = serial.Serial('/dev/ttyS0',baudrate=9600,timeout=0.5)
-
+ser = serial.Serial('/dev/ttyS0',baudrate=115200,timeout=0.5)
 while(1):
-    ser.flushInput();
     #Parse Data
     line = ser.readline()
     words = string.split(line,",")
@@ -16,9 +14,4 @@ while(1):
         y = float(words[3])
         z = float(words[5])
         r = float(words[7])
-
-    else:
-        print(words);
-
-    print("Valid Output")
-    print(x,y,z,r)
+        print(x,y,z,r)
