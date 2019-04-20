@@ -1,16 +1,21 @@
+"""
+set_attitude_target.py: (Copter Only)
+This example shows how to move/direct Copter and send commands
+ in GUIDED_NOGPS mode using DroneKit Python.
+Caution: A lot of unexpected behaviors may occur in GUIDED_NOGPS mode.
+        Always watch the drone movement, and make sure that you are in dangerless environment.
+        Land the drone as soon as possible when it shows any unexpected behavior.
+Tested in Python 2.7.10
+"""
+
 from dronekit import connect, VehicleMode, LocationGlobal, LocationGlobalRelative
 from pymavlink import mavutil # Needed for command message definitions
-from openmv_pi import openMV
-from pid import pid
 import time
 import math
-import serial
-
 
 # Connect to the Vehicle
 print('Connecting to vehicle')
 vehicle = connect('/dev/ttyUSB0', baud=115200, wait_ready=True)
-
 
 def arm_and_takeoff_nogps(aTargetAltitude):
     """
@@ -20,6 +25,17 @@ def arm_and_takeoff_nogps(aTargetAltitude):
     ##### CONSTANTS #####
     DEFAULT_TAKEOFF_THRUST = 0.7
     SMOOTH_TAKEOFF_THRUST = 0.6
+
+    print("Basic pre-arm checks")
+    
+    # Don't let the user try to arm until autopilot is ready
+    # If you need to disable the arming check,
+    # just comment it with your own responsibility.
+    
+    #while not vehicle.is_armable:
+    #    print(" Waiting for vehicle to initialise...")
+    #    time.sleep(1)
+
 
     print("Arming motors")
     # Copter should arm in GUIDED_NOGPS mode
@@ -117,59 +133,38 @@ def to_quaternion(roll = 0.0, pitch = 0.0, yaw = 0.0):
 
     return [w, x, y, z]
 
-def get_angles(cam, pid_x, pid_y, pid_z, pid_r):
-    x = pid_x.get_p(cam.x)
-    y = pid_y.get_p(cam.y)
-    z = pid_z.get_pid(cam.z, pid_z.get_dt(1))
-    r = pid_r.get_pid(cam.r, pid_r.get_dt(1))
-    #print("X:%f \r\nY:%f \r\n Z:%f \r\nR:%f\r\n"%(cam.x,cam.y,cam.z,cam.r))
-    #print("Y:%f"%(cam.y))
-    return (x, y, z, r)
-
-"""
 # Take off 2.5m in GUIDED_NOGPS mode.
-arm_and_takeoff_nogps(2.5)
+arm_and_takeoff_nogps(1.5)
 
 # Hold the position for 3 seconds.
 print("Hold position for 3 seconds")
 set_attitude(duration = 3)
-"""
 
-# Hover over Apriltag
-ser = serial.Serial('/dev/ttyS0',baudrate=115200,timeout=0.5)
-cam = openMV(ser)
-GAIN_P = 1
-GAIN_I = 0.05
-GAIN_D = 0.03
-I_MAX = 100
-pid_x = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
-pid_y = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
-pid_z = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
-pid_r = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
-seen_tag = False
-first = True
-count = 0
-while True:
-    cam.update()
-    if cam.x != 0:
-        if first:
-            while not vehicle.armed:
-                vehicle.armed = True
-                time.sleep(1)
-            vehicle.mode = VehicleMode("GUIDED_NOGPS")
-            first = False
-            seen_tag = True
-        inputs = get_angles(cam, pid_x, pid_y, pid_z, pid_r)
-        print("X:%f \tY:%f \t Z:%f \tR:%f"%(inputs))
-        send_attitude_target(roll_angle = inputs[0], pitch_angle = -inputs[1],thrust = 0.5)
-        count = 0
-    else:
-        if seen_tag:
-            if count > 10:
-                vehicle.mode = VehicleMode("LAND")
-                time.sleep(1)
-                vehicle.close()
-            else:
-                count = count+1
+# Uncomment the lines below for testing roll angle and yaw rate.
+# Make sure that there is enough space for testing this.
+
+# set_attitude(roll_angle = 1, thrust = 0.5, duration = 3)
+# set_attitude(yaw_rate = 30, thrust = 0.5, duration = 3)
+
+# Move the drone forward and backward.
+# Note that it will be in front of original position due to inertia.
+print("Move forward")
+set_attitude(pitch_angle = -5, thrust = 0.5, duration = 1)
+
+print("Move backward")
+set_attitude(pitch_angle = 5, thrust = 0.5, duration = 1)
 
 
+print("Setting LAND mode...")
+vehicle.mode = VehicleMode("LAND")
+time.sleep(1)
+
+# Close vehicle object before exiting script
+print("Close vehicle object")
+vehicle.close()
+
+# Shut down simulator if it was started.
+if sitl is not None:
+    sitl.stop()
+
+print("Completed")
