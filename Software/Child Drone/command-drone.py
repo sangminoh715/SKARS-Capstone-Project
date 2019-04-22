@@ -154,10 +154,10 @@ set_attitude(duration = 3)
 # Hover over Apriltag
 ser = serial.Serial('/dev/ttyS0',baudrate=115200,timeout=0.1)
 cam = openMV(ser)
-GAIN_P = 1.00
-GAIN_I = 0.06
-GAIN_D = -0.015
-I_MAX = 100
+GAIN_P = 0.4
+GAIN_I = 0.2
+GAIN_D = 0.05
+I_MAX = 5
 pid_x = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
 pid_y = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
 pid_z = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
