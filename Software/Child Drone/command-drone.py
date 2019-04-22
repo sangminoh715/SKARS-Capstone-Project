@@ -59,6 +59,8 @@ def send_attitude_target(roll_angle = 0.0, pitch_angle = 0.0,
     if yaw_angle is None:
         # this value may be unused by the vehicle, depending on use_yaw_rate
         yaw_angle = vehicle.attitude.yaw
+        roll_angle = vehicle.attitude.roll + roll_angle
+        pitch_angle = vehicle.attitude.pitch + pitch_angle
     # Thrust >  0.5: Ascend
     # Thrust == 0.5: Hold the altitude
     # Thrust <  0.5: Descend
@@ -118,14 +120,28 @@ def to_quaternion(roll = 0.0, pitch = 0.0, yaw = 0.0):
     return [w, x, y, z]
 
 def get_angles(cam, pid_x, pid_y, pid_z, pid_r):
-    x = pid_x.get_p(cam.x)
-    y = pid_y.get_p(cam.y)
+    x = saturate(pid_x.get_pi(cam.x,pid_x.get_dt(1)))
+    y = saturate(pid_y.get_pi(cam.y, pid_y.get_dt(1)))
     z = pid_z.get_pid(cam.z, pid_z.get_dt(1))
-    r = pid_r.get_pid(cam.r, pid_r.get_dt(1))
+    r = cam.r%360
+    if r <= 180:
+        r = -r
+    else:
+        r = 360 - r
+    r = r*0.1;
+
     #print("X:%f \r\nY:%f \r\n Z:%f \r\nR:%f\r\n"%(cam.x,cam.y,cam.z,cam.r))
     #print("Y:%f"%(cam.y))
     return (x, y, z, r)
 
+
+def saturate(input):
+    MAX = 2.5
+    if input > MAX:
+        input = MAX
+    if input < -MAX:
+        input = -MAX
+    return input
 """
 # Take off 2.5m in GUIDED_NOGPS mode.
 arm_and_takeoff_nogps(2.5)
@@ -136,11 +152,11 @@ set_attitude(duration = 3)
 """
 
 # Hover over Apriltag
-ser = serial.Serial('/dev/ttyS0',baudrate=115200,timeout=0.5)
+ser = serial.Serial('/dev/ttyS0',baudrate=115200,timeout=0.1)
 cam = openMV(ser)
-GAIN_P = 1
-GAIN_I = 0.05
-GAIN_D = 0.03
+GAIN_P = 1.00
+GAIN_I = 0.06
+GAIN_D = -0.015
 I_MAX = 100
 pid_x = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
 pid_y = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
@@ -157,11 +173,13 @@ while True:
                 vehicle.armed = True
                 time.sleep(1)
             vehicle.mode = VehicleMode("GUIDED_NOGPS")
+            time.sleep(0.5)
             first = False
-            seen_tag = True
+            #seen_tag = True
         inputs = get_angles(cam, pid_x, pid_y, pid_z, pid_r)
         print("X:%f \tY:%f \t Z:%f \tR:%f"%(inputs))
-        send_attitude_target(roll_angle = inputs[0], pitch_angle = -inputs[1],thrust = 0.5)
+        #send_attitude_target(roll_angle = inputs[0], pitch_angle = -inputs[1],thrust = 0.5)
+        send_attitude_target(roll_angle = inputs[0], pitch_angle = -inputs[1], use_yaw_rate = True, yaw_rate = 0, thrust = 0.5)
         count = 0
     else:
         if seen_tag:
