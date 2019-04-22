@@ -11,6 +11,7 @@ class pid(object):
         self.imax = abs(initial_imax)
         self.integrator = 0
         self.last_error = None
+        self.last_error_int = None
         self.last_update = time.time() 
 
     # __str__ - print position vector as string
@@ -33,6 +34,11 @@ class pid(object):
 
     # get_i - return i term
     def get_i(self, error, dt):
+        if self.last_error_int is None:
+            self.last_error_int = error
+        if (self.last_error_int < 0 and error > 0) or (self.last_error_int > 0 and error < 0):
+            self.reset_I()
+        self.last_error_int = error
         self.integrator = self.integrator + error * self.i_gain * dt
         self.integrator = min(self.integrator, self.imax)
         self.integrator = max(self.integrator, -self.imax)
@@ -42,7 +48,7 @@ class pid(object):
     def get_d(self, error, dt):
         if self.last_error is None:
             self.last_error = error
-        ret = (error - self.last_error) * self.d_gain * dt
+        ret = (error - self.last_error) * self.d_gain / dt
         self.last_error = error
         return ret
 
