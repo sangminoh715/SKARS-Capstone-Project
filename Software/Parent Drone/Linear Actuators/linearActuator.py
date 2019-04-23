@@ -15,7 +15,7 @@ def extend():
 	# Extend Arm
 	print("Extending arm...\n")
 	pwm.start(10)
-	time.sleep(22)
+	time.sleep(13)
 
 	# Cleanup
 	pwm.stop()
@@ -36,7 +36,7 @@ def retract():
 	# Retract Arm
 	print("Retracting arm...\n")
 	pwm.start(5)
-	time.sleep(22)
+	time.sleep(13)
 
 	# Cleanup
 	pwm.stop()
