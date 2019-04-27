@@ -48,7 +48,10 @@ class pid(object):
     def get_d(self, error, dt):
         if self.last_error is None:
             self.last_error = error
-        ret = (error - self.last_error) * self.d_gain / dt
+        if dt != 0:
+            ret = (error - self.last_error) * self.d_gain / dt
+        else:
+            ret = 0
         self.last_error = error
         return ret
 

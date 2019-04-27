@@ -1,6 +1,7 @@
 from dronekit import connect, VehicleMode, LocationGlobal, LocationGlobalRelative
 from pymavlink import mavutil # Needed for command message definitions
 from openmv_pi import openMV
+from dt_controller import dt_controller
 from pid import pid
 import time
 import math
@@ -120,8 +121,8 @@ def to_quaternion(roll = 0.0, pitch = 0.0, yaw = 0.0):
     return [w, x, y, z]
 
 def get_angles(cam, pid_x, pid_y, pid_z, pid_r):
-    x = saturate(pid_x.get_pi(cam.x,pid_x.get_dt(1)))
-    y = saturate(pid_y.get_pi(cam.y, pid_y.get_dt(1)))
+    x = saturate(pid_x.get_output(cam.x))
+    y = saturate(pid_y.get_output(cam.y))
     z = pid_z.get_pid(cam.z, pid_z.get_dt(1))
     r = cam.r%360
     if r <= 180:
@@ -130,13 +131,12 @@ def get_angles(cam, pid_x, pid_y, pid_z, pid_r):
         r = 360 - r
     r = r*0.1;
 
-    #print("X:%f \r\nY:%f \r\n Z:%f \r\nR:%f\r\n"%(cam.x,cam.y,cam.z,cam.r))
-    #print("Y:%f"%(cam.y))
+    print("Xc:%f \tYc:%f \tn Zc:%f \tRc:%f"%(cam.x,cam.y,cam.z,cam.r))
     return (x, y, z, r)
 
 
 def saturate(input):
-    MAX = 2.5
+    MAX = 15
     if input > MAX:
         input = MAX
     if input < -MAX:
@@ -154,12 +154,12 @@ set_attitude(duration = 3)
 # Hover over Apriltag
 ser = serial.Serial('/dev/ttyS0',baudrate=115200,timeout=0.1)
 cam = openMV(ser)
-GAIN_P = 0.4
-GAIN_I = 0.2
+control_x = dt_controller() 
+control_y = dt_controller() 
+GAIN_P = 1
+GAIN_I = 0.7
 GAIN_D = 0.05
-I_MAX = 5
-pid_x = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
-pid_y = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
+I_MAX = 10
 pid_z = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
 pid_r = pid(GAIN_P, GAIN_I, GAIN_D, I_MAX) 
 seen_tag = False
@@ -173,13 +173,12 @@ while True:
                 vehicle.armed = True
                 time.sleep(1)
             vehicle.mode = VehicleMode("GUIDED_NOGPS")
-            time.sleep(0.5)
             first = False
             #seen_tag = True
-        inputs = get_angles(cam, pid_x, pid_y, pid_z, pid_r)
-        print("X:%f \tY:%f \t Z:%f \tR:%f"%(inputs))
+        inputs = get_angles(cam, control_x, control_y, pid_z, pid_r)
+        print("X:%f \tY:%f \t Z:%f \tR:%f\r\n"%(inputs))
         #send_attitude_target(roll_angle = inputs[0], pitch_angle = -inputs[1],thrust = 0.5)
-        send_attitude_target(roll_angle = inputs[0], pitch_angle = -inputs[1], use_yaw_rate = True, yaw_rate = 0, thrust = 0.5)
+        send_attitude_target(roll_angle = -inputs[0], pitch_angle = inputs[1], use_yaw_rate = True, yaw_rate = 0, thrust = 0.5)
         count = 0
     else:
         if seen_tag:
