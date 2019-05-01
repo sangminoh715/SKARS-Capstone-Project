@@ -120,7 +120,7 @@ def to_quaternion(roll = 0.0, pitch = 0.0, yaw = 0.0):
 
     return [w, x, y, z]
 
-def get_angles(cam, pid_x, pid_y, pid_z, pid_r):
+def get_angles(cam, pid_x, pid_y, pid_z, pid_r, vehicle):
     x = saturate(pid_x.get_output(cam.x))
     y = saturate(pid_y.get_output(cam.y))
     dt = pid_z.get_dt(1)
@@ -132,7 +132,7 @@ def get_angles(cam, pid_x, pid_y, pid_z, pid_r):
         r = 360 - r
     r = r*0.1;
 
-    print("Xc:%f \tYc:%f \tn Zc:%f \tRc:%f"%(cam.x,cam.y,cam.z,cam.r))
+    print("%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f"%(cam.x,cam.y,cam.z,cam.r,vehicle.channels['1']-1499,vehicle.channels['2']-1585,vehicle.channels['3']-1001,vehicle.channels['4']-1523))
     #print("%f\t%f"%(cam.y,dt))
     return (x, y, z, r)
 
@@ -178,14 +178,14 @@ while True:
             #vehicle.mode = VehicleMode("GUIDED_NOGPS")
             first = False
             #seen_tag = True
-        inputs = get_angles(cam, control_x, control_y, pid_z, pid_r)
-        print("X:%f \tY:%f \t Z:%f \tR:%f\r\n"%(inputs))
+        inputs = get_angles(cam, control_x, control_y, pid_z, pid_r, vehicle)
+        #print("X:%f \tY:%f \t Z:%f \tR:%f\r\n"%(inputs))
         #send_attitude_target(roll_angle = inputs[0], pitch_angle = -inputs[1],thrust = 0.5)
         #send_attitude_target(roll_angle = -inputs[0], pitch_angle = inputs[1], use_yaw_rate = True, yaw_rate = 0, thrust = 0.4)
         #send_attitude_target(thrust = 0.45)
         if int(vehicle.channels['5']) < 1200:
             #vehicle.channels.overrides = {'1': 1499-inputs[0],'2': 1585-inputs[1]}
-            vehicle.channels.overrides = {'2': 1585-inputs[1]}
+            #vehicle.channels.overrides = {'2': 1585-inputs[1]}
         else:
             vehicle.channels.overrides = {}
     else:
