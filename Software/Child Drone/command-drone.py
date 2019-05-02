@@ -123,7 +123,7 @@ def to_quaternion(roll = 0.0, pitch = 0.0, yaw = 0.0):
 def get_angles(cam, pid_x, pid_y, pid_z, pid_r, vehicle):
     x = saturate(pid_x.get_output(cam.x))
     y = saturate(pid_y.get_output(cam.y))
-    dt = pid_z.get_dt(1)
+    dt = pid_z.get_dt(10)
     z = pid_z.get_pid(cam.z, dt)
     r = cam.r%360
     if r <= 180:
