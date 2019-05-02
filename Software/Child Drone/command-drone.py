@@ -132,7 +132,7 @@ def get_angles(cam, pid_x, pid_y, pid_z, pid_r, vehicle):
         r = 360 - r
     r = r*0.1;
 
-    print("%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f"%(cam.x,cam.y,cam.z,cam.r,vehicle.channels['1']-1499,vehicle.channels['2']-1585,vehicle.channels['3']-1001,vehicle.channels['4']-1523))
+    print("%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f"%(cam.x,cam.y,cam.z,cam.r,vehicle.channels['1']-1499,vehicle.channels['2']-1585,vehicle.channels['3']-1001,vehicle.channels['4']-1523,dt))
     #print("%f\t%f"%(cam.y,dt))
     return (x, y, z, r)
 
