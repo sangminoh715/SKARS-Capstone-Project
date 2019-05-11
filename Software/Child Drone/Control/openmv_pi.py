@@ -20,6 +20,7 @@ class openMV(object):
         count = 0
         tmpx = 0
         tmpy = 0
+        tmpr = 0
         tmpx_total = 0
         tmpy_total = 0
         tmpz_total = 0
@@ -38,13 +39,16 @@ class openMV(object):
                     delta_t = current_time - self.last_time
                     self.last_time = current_time
                     tmpvx += (float(words[1]) - tmpx)/delta_t
-                    tmpvy += (float(wordsd[3]) - tmpy)/delta_t
+                    tmpvy += (float(words[3]) - tmpy)/delta_t
                 tmpx = float(words[1])
                 tmpy = float(words[3])
+                tmpr = float(words[7])
+                if tmpr > 180:
+                    tmpr = -360 + tmpr
                 tmpx_total += tmpx
                 tmpy_total += tmpy
                 tmpz_total += float(words[5])
-                tmpr_total += float(words[7])
+                tmpr_total += tmpr
                 count += 1
         if count > 1:
             self.x = tmpx_total/count
@@ -53,4 +57,11 @@ class openMV(object):
             self.r = tmpr_total/count
             self.vx = tmpvx/(count - 1)
             self.vy = tmpvy/(count - 1)
+        else:
+            self.x = tmpx_total
+            self.y = tmpy_total
+            self.z = tmpz_total
+            self.r = tmpr_total
+            self.vx = tmpvx
+            self.vy = tmpvy
 

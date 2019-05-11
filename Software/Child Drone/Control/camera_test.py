@@ -12,5 +12,5 @@ while True:
     current_time = time.time()
     delta_t = current_time - last_time
     last_time = current_time
-    print("X:%f\tY:%f\tZ:%f\tR:%f\tvX:\tvY:\tT:%f" %(cam.x, cam.y, cam.z, cam.r, cam.vx, cam.vy, delta_t))
+    print("X:%f\tY:%f\tZ:%f\tR:%f\tvX:%f\tvY:%f\tT:%f"%(cam.x,cam.y,cam.z,cam.r,cam.vx,cam.vy,delta_t))
 
