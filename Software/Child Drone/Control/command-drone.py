@@ -1,8 +1,6 @@
 from dronekit import connect, VehicleMode, LocationGlobal, LocationGlobalRelative
 from pymavlink import mavutil # Needed for command message definitions
 from openmv_pi import openMV
-from dt_controller import dt_controller
-from pid import pid
 import time
 import math
 import serial
@@ -49,7 +47,7 @@ def arm_and_takeoff_nogps(aTargetAltitude):
 
 
 def saturate(input):
-    MAX = 75
+    MAX = 150
     if input > MAX:
         input = MAX
     if input < -MAX:
@@ -57,11 +55,11 @@ def saturate(input):
     return input
 
 
-def send_impulse(vehicle, cam, MAX_RANGE = 2, MAX_V = 0.5, IMPULSE_TIME = 0.25)
-    X_SCALAR = 10
-    XV_SCALAR = 5
-    Y_SCALAR = 10
-    YV_SCALAR = 5
+def send_impulse(vehicle, cam, MAX_RANGE = 1, MAX_V = 0.5, IMPULSE_TIME = 0.35):
+    X_SCALAR = 12
+    XV_SCALAR = 10
+    Y_SCALAR = 15
+    YV_SCALAR = 8
 
     x = cam.x
     y = cam.y
@@ -77,17 +75,23 @@ def send_impulse(vehicle, cam, MAX_RANGE = 2, MAX_V = 0.5, IMPULSE_TIME = 0.25)
         in_y += Y_SCALAR*y
 
     if abs(vx) > MAX_V:
-        in_x += XV_SCALAR*xv
+        in_x += XV_SCALAR*vx
     if abs(vy) > MAX_V:
-        in_y += YV_SCALAR*yv
-
+        in_y += YV_SCALAR*vy
+    #if in_x > 0:
+     #   in_x *= 1.25
     in_x = saturate(in_x)
     in_y = saturate(in_y)
 
     t = time.time()
-    while (time.time() <= t+IMPULSE_TIME):
+    while (time.time() <= t+IMPULSE_TIME and (in_x != 0 or in_y != 0)):
         vehicle.channels.overrides = {'1': 1499+in_x,'2': 1585+in_y}
+        #vehicle.channels.overrides = {'2': 1585+in_y} #Control Y
+        #vehicle.channels.overrides = {'1': 1499+in_x} #Control X
     vehicle.channels.overrides = {}
+    print("X:%f\tY:%f\tXv:%f\tYv:%f" %(x, y, vx, vy))
+    print("Xin:%f\tYin:%f\r\n" %(in_x, in_y))
+
 
 # Hover over Apriltag
 ser = serial.Serial('/dev/ttyS0',baudrate=115200,timeout=0.1)
