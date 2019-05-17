@@ -1,9 +1,11 @@
 from dronekit import connect, VehicleMode, LocationGlobal, LocationGlobalRelative
 from pymavlink import mavutil # Needed for command message definitions
-from openmv_pi import openMV
+from openmv_pi_threading import openMV
+from dt_controller import dt_controller
 import time
 import math
 import serial
+import threading
 
 
 # Connect to the Vehicle
@@ -47,7 +49,7 @@ def arm_and_takeoff_nogps(aTargetAltitude):
 
 
 def saturate(input):
-    MAX = 150
+    MAX = 120
     if input > MAX:
         input = MAX
     if input < -MAX:
@@ -55,29 +57,30 @@ def saturate(input):
     return input
 
 
-def send_impulse(vehicle, cam, MAX_RANGE = 1, MAX_V = 0.5, IMPULSE_TIME = 0.35):
+def send_impulse(vehicle, cam, MAX_RANGE = 1, MIN_V = 1, MAX_V = 15, IMPULSE_TIME = 0.08):
     X_SCALAR = 12
     XV_SCALAR = 10
     Y_SCALAR = 15
-    YV_SCALAR = 8
+    YV_SCALAR = 10
 
     x = cam.x
     y = cam.y
     vx = cam.vx
     vy = cam.vy
-    
+
     in_x = 0
     in_y = 0
     
+    
     if abs(x) > MAX_RANGE:
         in_x += X_SCALAR*x
+        if abs(vx) > MIN_V and abs(vx) < MAX_V:
+            in_x += XV_SCALAR*vx
+
     if abs(y) > MAX_RANGE:
         in_y += Y_SCALAR*y
-
-    if abs(vx) > MAX_V:
-        in_x += XV_SCALAR*vx
-    if abs(vy) > MAX_V:
-        in_y += YV_SCALAR*vy
+        if abs(vy) > MIN_V and abs(vx) < MAX_V:
+            in_y += YV_SCALAR*vy
     #if in_x > 0:
      #   in_x *= 1.25
     in_x = saturate(in_x)
@@ -85,22 +88,42 @@ def send_impulse(vehicle, cam, MAX_RANGE = 1, MAX_V = 0.5, IMPULSE_TIME = 0.35):
 
     t = time.time()
     while (time.time() <= t+IMPULSE_TIME and (in_x != 0 or in_y != 0)):
-        vehicle.channels.overrides = {'1': 1499+in_x,'2': 1585+in_y}
-        #vehicle.channels.overrides = {'2': 1585+in_y} #Control Y
-        #vehicle.channels.overrides = {'1': 1499+in_x} #Control X
+        #vehicle.channels.overrides = {'1': 1500-in_x,'2': 1500-in_y}
+        vehicle.channels.overrides = {'2': 1500 -in_y} #Control Y
+        #vehicle.channels.overrides = {'1': 1500-in_x} #Control X
     vehicle.channels.overrides = {}
-    print("X:%f\tY:%f\tXv:%f\tYv:%f" %(x, y, vx, vy))
+    print("X:%f\tY:%f\tVX:%f\tVY:%f" %(x, y,vx,vy))
     print("Xin:%f\tYin:%f\r\n" %(in_x, in_y))
-
 
 # Hover over Apriltag
 ser = serial.Serial('/dev/ttyS0',baudrate=115200,timeout=0.1)
 cam = openMV(ser)
 
+def update_camera(cam):
+    while True:
+        cam.update()
+
+t = threading.Thread(target=update_camera, args=(cam,))
+t.daemon = True
+t.start()
+
+x_control = dt_controller(0.08)
+y_control = dt_controller(0.08)
+CONTROL_PERIOD = 0.08
+print("MADE IT HERE")
 while True:
-    cam.update()
     if cam.x != 0:
         if int(vehicle.channels['5']) < 1200:
-            send_impulse(vehicle, cam)
-        else:
-            vehicle.channels.overrides = {}
+            #send_impulse(vehicle,cam)
+            xin = saturate(x_control.get_output(cam.x))
+            yin = saturate(y_control.get_output(cam.y))
+            print("X:%f\tY:%f" %(cam.x, cam.y))
+            print("Xin:%f\tYin:%f" %(xin, yin))
+            #t = time.time()
+            #while (time.time() <= t+CONTROL_PERIOD):
+            vehicle.channels.overrides = {'1': 1500-1.2*xin,'2': 1500+1.2*yin}
+                #vehicle.channels.overrides = {'1': 1400+xin} #X_CONTROL
+                #vehicle.channels.overrides = {'2': 1500+yin} #Y_CONTROL
+    else:
+        vehicle.channels.overrides = {}
+        
