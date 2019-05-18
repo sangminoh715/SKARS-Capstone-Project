@@ -57,11 +57,11 @@ def saturate(input):
     return input
 
 
-def send_impulse(vehicle, cam, MAX_RANGE = 1, MIN_V = 1, MAX_V = 15, IMPULSE_TIME = 0.08):
-    X_SCALAR = 12
-    XV_SCALAR = 10
-    Y_SCALAR = 15
-    YV_SCALAR = 10
+def send_impulse(vehicle, cam, MAX_RANGE = 1, MIN_V = 0.5, MAX_V = 10, IMPULSE_TIME = 0.2):
+    X_SCALAR = 5.5
+    XV_SCALAR = 9
+    Y_SCALAR = 6    #6 WAS GOOD
+    YV_SCALAR = 12  #12 WAS GOOD
 
     x = cam.x
     y = cam.y
@@ -74,13 +74,13 @@ def send_impulse(vehicle, cam, MAX_RANGE = 1, MIN_V = 1, MAX_V = 15, IMPULSE_TIM
     
     if abs(x) > MAX_RANGE:
         in_x += X_SCALAR*x
-        if abs(vx) > MIN_V and abs(vx) < MAX_V:
-            in_x += XV_SCALAR*vx
+    if abs(vx) > MIN_V and abs(vx) < MAX_V:
+        in_x += XV_SCALAR*vx
 
     if abs(y) > MAX_RANGE:
         in_y += Y_SCALAR*y
-        if abs(vy) > MIN_V and abs(vx) < MAX_V:
-            in_y += YV_SCALAR*vy
+    if abs(vy) > MIN_V and abs(vx) < MAX_V:
+        in_y += YV_SCALAR*vy
     #if in_x > 0:
      #   in_x *= 1.25
     in_x = saturate(in_x)
@@ -89,11 +89,12 @@ def send_impulse(vehicle, cam, MAX_RANGE = 1, MIN_V = 1, MAX_V = 15, IMPULSE_TIM
     t = time.time()
     while (time.time() <= t+IMPULSE_TIME and (in_x != 0 or in_y != 0)):
         #vehicle.channels.overrides = {'1': 1500-in_x,'2': 1500-in_y}
-        vehicle.channels.overrides = {'2': 1500 -in_y} #Control Y
-        #vehicle.channels.overrides = {'1': 1500-in_x} #Control X
+        #vehicle.channels.overrides = {'2': 1500 - in_y} #Control Y
+        vehicle.channels.overrides = {'1': 1500-in_x} #Control X
     vehicle.channels.overrides = {}
     print("X:%f\tY:%f\tVX:%f\tVY:%f" %(x, y,vx,vy))
     print("Xin:%f\tYin:%f\r\n" %(in_x, in_y))
+    time.sleep(0.21)
 
 # Hover over Apriltag
 ser = serial.Serial('/dev/ttyS0',baudrate=115200,timeout=0.1)
@@ -114,16 +115,19 @@ print("MADE IT HERE")
 while True:
     if cam.x != 0:
         if int(vehicle.channels['5']) < 1200:
-            #send_impulse(vehicle,cam)
-            xin = saturate(x_control.get_output(cam.x))
-            yin = saturate(y_control.get_output(cam.y))
-            print("X:%f\tY:%f" %(cam.x, cam.y))
-            print("Xin:%f\tYin:%f" %(xin, yin))
+            #print("%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f" %(cam.x, cam.y, cam.z, cam.r, int(vehicle.channels['1']) - 1500, int(vehicle.channels['2']) - 1500, int(vehicle.channels['3']) - 1000, int(vehicle.channels['4']) - 1500, time.time() - t))
+            send_impulse(vehicle,cam)
+            #xin = saturate(x_control.get_output(cam.x))
+            #yin = saturate(y_control.get_output(cam.y))
+            #print("X:%f\tY:%f" %(cam.x, cam.y))
+            #print("Xin:%f\tYin:%f" %(xin, yin))
+            #print("%f\t%f\t%f" %(cam.x, cam.y, time.time() - t))
             #t = time.time()
             #while (time.time() <= t+CONTROL_PERIOD):
-            vehicle.channels.overrides = {'1': 1500-1.2*xin,'2': 1500+1.2*yin}
+                #vehicle.channels.overrides = {'1': 1500-1.2*xin,'2': 1500+1.2*yin}
                 #vehicle.channels.overrides = {'1': 1400+xin} #X_CONTROL
-                #vehicle.channels.overrides = {'2': 1500+yin} #Y_CONTROL
+                #vehicle.channels.overrides = {'2': 1485+yin} #Y_CONTROL
+
     else:
         vehicle.channels.overrides = {}
         
