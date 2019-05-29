@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 import math
 import threading
-
+from controller import Controller
 # Create a pool of image processors
 done = False
 lock = threading.Lock()
@@ -14,11 +14,11 @@ pool = []
 ##########################################################################
 
 class Parameters(object):
-    def __init__(self, kp, kd, ki):
-        self.position = np.array([0, 0, 0, 0]) #X,Y,Z,R
-        self.velocities = np.matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    def __init__(self):
+        self.position = np.matrix([0, 0, 0]) #X,Y,Z,R
+        self.velocities = np.matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]], dtype=np.float64)
         self.velindex = 0
-        self.flatIntegral = np.array([0, 0, 0]) #X,Y,Z
+        self.flatIntegral = np.matrix([0, 0, 0]) #X,Y,Z
         self.last_time = time.time()
 
 
@@ -32,21 +32,32 @@ class Parameters(object):
     def add(self, vector, current_time):
         delta_t = current_time - self.last_time
         self.last_time = current_time
-        curvel = np.subtract(vector, position)/delta_t
-        velocities[velindex] = curvel
-        velindex  = (velindex + 1)%3
+        curvel = np.subtract(vector.transpose(), self.position)/delta_t
+        # print(curvel.shape)
+        # print(curvel)
+        print(self.velocities)
+        self.velocities[self.velindex] = np.float64(curvel)
+        # print(self.velocities)
+        self.velindex  = (self.velindex + 1)%3
+        # print(self.velindex)
         # integral = ((self.integral[0] + vector[0]) * delta_t, (self.integral[1] + vector[1])*delta_t, (self.integral[2], vector[2])*delta_t)
-        self.integral = np.sum(self.integral, vector)* delta_t
+        self.flatIntegral = np.add(self.flatIntegral, 	vector.transpose()* delta_t)
+        self.position = vector.transpose()
 
-    def getVel():
-        return np.sum(velocities, axis=0)
+    def getVel(self):
+        return np.sum(self.velocities, axis=0)
 
+    def getPos(self):
+    	return self.position
+
+    def getInt(self):
+    	return self.flatIntegral
 
 
     def printData():
         print("POSITION:", self.position)
-        print("Velocity:", self.velocities)
-        print("Integral:", self.Integral)
+        print("VELOCITY:", self.velocities)
+        print("INTEGRAL:", self.Integral)
 
     
 class ImageProcessor(threading.Thread):
@@ -59,7 +70,8 @@ class ImageProcessor(threading.Thread):
         self.detector = apriltag.Detector()
         self.tag_size = 3.0
         self.parameters = (0,0,0,0) #x,y,z,r
-       
+       	self.paramstruct = Parameters();
+
         fov_x = 62.2*math.pi/180
         fov_y = 48.8*math.pi/180
         fx = self.width/(2*math.tan(fov_x/2))
@@ -71,6 +83,7 @@ class ImageProcessor(threading.Thread):
         self.event = threading.Event()
         self.terminated = False
         # self.paramset = Parameters()
+        self.controller = Controller(1, 5, 10)
         self.start()
 
 
@@ -89,10 +102,19 @@ class ImageProcessor(threading.Thread):
                     for i, detection in enumerate(results):
                         pose, e0, e1 = self.detector.detection_pose(detection,self.camera_params,self.tag_size)
                         mat = np.matrix(pose)
+                        # print(mat)
                         T = mat[0:3,3]
                         rz = -math.atan2(mat[1,0],mat[0,0])
-                        self.parameters = (float(T[0]), float(T[1]), float(T[2]), float(rz))
-                        print(self.parameters)
+                        lock.acquire()
+                        self.paramstruct.add(np.matrix(mat[0:3,3]), time.time())
+                        
+                        # self.parameters = (float(T[0]), float(T[1]), float(T[2]), float(rz))
+                        # print(self.parameters)
+                        # print("\n\n\n")
+                        print("integral:", self.paramstruct.getInt())
+                        print("velocity", self.paramstruct.getVel())
+                        print("position", self.paramstruct.getPos())
+                        lock.release()
                     # Set done to True if you want the script to terminate
                     # at some point
                     #done=True
