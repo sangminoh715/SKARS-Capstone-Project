@@ -30,17 +30,30 @@ if __name__ == "__main__":
 	t = threading.Thread(target=update_camera, args=(piCam,))
 	t.daemon = True
 	t.start()
-	
+	last_array = ourParams.getParams()
+	last_time = time.time()
+	print("Starting!!!!")
 	while True:
 		#TODO:  limi the amount fo time responding ot one april tag read
 		#actually control the drone
 		#cap values if necessary
 		time.sleep(0.03)
+
 		tempParams = ourParams.getParams()
-		# print(tempParams)
+		if (not np.array_equal(last_array, tempParams)):
+			last_time = time.time()
+		elif (time.time() - last_time >= 0.5):##if it's been more then one second since an april tag reading, reset the parameters and don't send inputs
+			ourParams.reset()
+			tempParams = ourParams.getParams()
+
+		print("PARAMETERS", tempParams)
 		multMat = np.multiply(deezGains, tempParams)
 		thrustvals = np.sum(multMat, axis=0)
-		# print(thrustvals)
-		print(ourParams.getVel())
+		rz = ourParams.getRz()
+		# print("THRUSTVALS", thrustvals)
+		print("THRUST:", thrustvals[2])
+		# print(ourParams.getVel())
+		control.move_drone_nogps(thrust=thrustvals[2], roll=2000, pitch=2000, yaw=rz, duration=0.2)
+
 
 

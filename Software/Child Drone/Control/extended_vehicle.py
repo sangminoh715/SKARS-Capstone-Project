@@ -32,16 +32,16 @@ class DroneControl(object):
         4. Yaw, [-500,500]
         """
         tempdict = {}
-        if (throttle != 2000):
+        if (throttle != 0):
             tempdict['1'] = 1000+throttle
         
-        if (roll != 2000):
+        if (roll != 0):
             tempdict['2'] = 1500-roll
         
-        if (pitch != 2000):
+        if (pitch != 0):
             tempdict['3'] = 1500+pitch
         
-        if (yaw != 2000):
+        if (yaw != 0):
             tempdict['4'] = 1500+yaw
         
         
@@ -249,13 +249,13 @@ class DroneControl(object):
     #Special Mode for if duration = 0, stop all mode changes to allow rapid sending of commands
     def move_drone_nogps(self, thrust, roll, pitch, yaw, duration):        
         #Safety Checks
-        if thrust < 0 or thrust > 1000 and thrust != 2000:
+        if ((thrust < 0 or thrust > 1000)):
             return
-        if abs(roll) > 300 and roll != 2000:
+        if abs(roll) > 300:
             return
-        if abs(pitch) > 300 and pitch != 2000:
+        if abs(pitch) > 300:
             return
-        if abs(yaw) > 300 and yaw != 2000:
+        if abs(yaw) > 300:
             return        
         
         if duration > 0:

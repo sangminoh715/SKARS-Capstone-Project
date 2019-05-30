@@ -55,6 +55,7 @@ class ImageProcessor(threading.Thread):
                         pose, e0, e1 = self.detector.detection_pose(detection,self.camera_params,self.tag_size)
                         mat = np.array(pose)
                         T = mat[0:3,3]
+                        # print("MAT:", mat)
                         rz = -math.atan2(mat[1,0],mat[0,0])
                         lock.acquire()
                         self.paramstruct.add(np.array(mat[0:3,3]), rz, time.time())
