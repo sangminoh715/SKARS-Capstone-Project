@@ -11,6 +11,8 @@ done = False
 lock = threading.Lock()
 pool = []
 
+np.set_printoptions(suppress=True)
+
 ##########################################################################
 
 
@@ -48,6 +50,7 @@ class ImageProcessor(threading.Thread):
             # Wait for an image to be written to the stream
             if self.event.wait(1):
                 try:
+                    t = time.time()
                     self.img = self.img.reshape((self.height,self.width,3))
                     self.img = cv2.cvtColor(self.img,cv2.COLOR_BGR2GRAY)
                     results = self.detector.detect(self.img)
@@ -58,7 +61,11 @@ class ImageProcessor(threading.Thread):
                         # print("MAT:", mat)
                         rz = -math.atan2(mat[1,0],mat[0,0])
                         lock.acquire()
-                        self.paramstruct.add(np.array(mat[0:3,3]), rz, time.time())
+                        self.paramstruct.add(np.array(mat[0:3,3]), rz, t)
+                        lock.release()
+                    if results == []:
+                        lock.acquire()
+                        self.paramstruct.softReset()
                         lock.release()
 
                 finally:
