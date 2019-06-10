@@ -33,13 +33,13 @@ class DroneControl(object):
         """
         tempdict = {}
         if (throttle != 0):
-            tempdict['1'] = 1000+throttle
+            tempdict['3'] = 1000+throttle
         
         if (roll != 0):
-            tempdict['2'] = 1500-roll
+            tempdict['1'] = 1500-roll
         
         if (pitch != 0):
-            tempdict['3'] = 1500+pitch
+            tempdict['2'] = 1500+pitch
         
         if (yaw != 0):
             tempdict['4'] = 1500+yaw
@@ -47,14 +47,10 @@ class DroneControl(object):
         
         # self.vehicle.channels.overrides = {'1': 1500-roll, '2': 1500+pitch, '3': 1000+throttle, '4': 1500+yaw}
         self.vehicle.channels.overrides = tempdict
-        
-    #Remove Controller Inputs, Be careful, could cause drone to fall
-    def __remove_controller_override(self):
-        self.vehicle.channels.overrides = {}
             
     
     
-    def __set_attitude(roll_angle = 0.0, pitch_angle = 0.0,
+    def __set_attitude(self, roll_angle = 0.0, pitch_angle = 0.0,
                  yaw_angle = None, yaw_rate = 0.0, use_yaw_rate = False,
                  thrust = 0.5, duration = 0):
 
@@ -73,7 +69,7 @@ class DroneControl(object):
                              thrust)
         
         
-    def __send_attitude_target(roll_angle = 0.0, pitch_angle = 0.0,
+    def send_attitude_target(self, roll_angle = 0.0, pitch_angle = 0.0,
                          yaw_angle = None, yaw_rate = 0.0, use_yaw_rate = False,
                          thrust = 0.5):
         """
@@ -96,13 +92,32 @@ class DroneControl(object):
             1, # Target system
             1, # Target component
             0b00000000 if use_yaw_rate else 0b00000100,
-            to_quaternion(roll_angle, pitch_angle, yaw_angle), # Quaternion
+            self.to_quaternion(roll_angle, pitch_angle, yaw_angle), # Quaternion
             0, # Body roll rate in radian
             0, # Body pitch rate in radian
             math.radians(yaw_rate), # Body yaw rate in radian/second
             thrust  # Thrust
         )
         self.vehicle.send_mavlink(msg)
+
+
+    def to_quaternion(self, roll = 0.0, pitch = 0.0, yaw = 0.0):
+        """
+        Convert degrees to quaternions
+        """
+        t0 = math.cos(math.radians(yaw * 0.5))
+        t1 = math.sin(math.radians(yaw * 0.5))
+        t2 = math.cos(math.radians(roll * 0.5))
+        t3 = math.sin(math.radians(roll * 0.5))
+        t4 = math.cos(math.radians(pitch * 0.5))
+        t5 = math.sin(math.radians(pitch * 0.5))
+    
+        w = t0 * t2 * t4 + t1 * t3 * t5
+        x = t0 * t3 * t4 - t1 * t2 * t5
+        y = t0 * t2 * t5 + t1 * t3 * t4
+        z = t1 * t2 * t4 - t0 * t3 * t5
+    
+        return [w, x, y, z]
         
     
 
@@ -215,7 +230,7 @@ class DroneControl(object):
         self.vehicle.mode = VehicleMode("ALT_HOLD")
         
         
-    def arm_and_takeoff(aTargetAltitude):
+    def arm_and_takeoff(self, aTargetAltitude):
         """
         Arms vehicle and fly to aTargetAltitude.
         """
@@ -247,7 +262,7 @@ class DroneControl(object):
     
     #For Now, limiting total inputs slightly to prevent crashes
     #Special Mode for if duration = 0, stop all mode changes to allow rapid sending of commands
-    def move_drone_nogps(self, thrust, roll, pitch, yaw, duration):        
+    def move_drone_nogps(self, thrust, roll, pitch, yaw, duration, drone_frame, phone_compass):        
         #Safety Checks
         if ((thrust < 0 or thrust > 1000)):
             return
@@ -257,9 +272,18 @@ class DroneControl(object):
             return
         if abs(yaw) > 300:
             return        
+
         
         if duration > 0:
             self.vehicle.mode = VehicleMode("STABILIZE")
+
+        if not drone_frame:
+            angle = (phone_compass - int(self.vehicle.heading))%360
+            angle = angle*math.pi/180
+            newRoll = roll*math.cos(angle) - pitch*math.sin(angle)
+            newPitch = roll*math.sin(angle) + pitch*math.cos(angle)
+            roll = newRoll
+            pitch = newPitch
         
         self.__override_controller(thrust,roll,pitch,yaw)
         
@@ -299,7 +323,7 @@ class DroneControl(object):
             self.vehicle.mode = VehicleMode("LOITER")
 
     #Heading from 0-360 from north, or if relative is true then from current vehicle heading
-    def set_heading(heading, relative=False):
+    def set_heading(self, heading, relative=False):
         if relative:
             is_relative=1 #yaw relative to direction of travel
         else:
@@ -316,6 +340,13 @@ class DroneControl(object):
             0, 0, 0)    # param 5 ~ 7 not used
         # send command to vehicle
         vehicle.send_mavlink(msg)
+
+        #Remove Controller Inputs, Be careful, could cause drone to fall
+    def remove_controller_override(self):
+        self.vehicle.channels.overrides = {}
+
+    def setMode(self, mode):
+        self.vehicle.mode = VehicleMode(mode)
         
     # def get_openmv_image(self):
         #self.cam.get_images()
