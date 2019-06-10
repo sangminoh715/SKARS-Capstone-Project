@@ -9,17 +9,27 @@ class Parameters(object):
         self.flatIntegral = np.array([0, 0, 0]) #X,Y,Z
         self.rz = 0.0
         self.lastTime = time.time()
+        self.resetCount = 0
 
 
     def reset(self):
         self.position = np.array([0, 0, 0])
         self.velocities = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]], dtype=np.float64)
         self.velindex = 0
-        self.integral = np.array([0, 0, 0])
+        self.flatIntegral = np.array([0, 0, 0])
         self.rz = 0.0
 
+    def softReset(self):
+        if self.resetCount > 10:
+            self.reset()
+            self.resetCount = 0
+        else:
+            self.resetCount += 1
+
+
     def add(self, vector, rz, current_time):
-        vector[1] -= 15
+        self.resetCount = 0
+        vector[2] -= 15
         deltaT = current_time - self.lastTime
         self.rz = rz
         self.lastTime = current_time
@@ -43,7 +53,7 @@ class Parameters(object):
         return self.rz
 
     def getVel(self):
-        return np.sum(self.velocities, axis=0)
+        return np.sum(self.velocities, axis=0)/3.0
 
     def getPos(self):
     	return self.position
@@ -52,7 +62,7 @@ class Parameters(object):
     	return self.flatIntegral
 
     def getParams(self):
-        return np.array([self.position, np.sum(self.velocities, axis=0), self.flatIntegral])
+        return np.array([self.position, np.sum(self.velocities, axis=0)/3.0, self.flatIntegral])
 
     def printData():
         print("POSITION:", self.position)
